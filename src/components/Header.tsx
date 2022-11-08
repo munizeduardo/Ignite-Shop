@@ -14,7 +14,7 @@ export function Header() {
       
         <ToggleCart>
           <Handbag size={32} color="white" weight="bold" />
-          <span>{cartCount}</span>
+          {cartCount > 0 && <span>{cartCount}</span>}
         </ToggleCart>
       
     </HeaderContainer>
