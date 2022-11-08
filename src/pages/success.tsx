@@ -2,7 +2,7 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Stripe from "stripe";
 import { useShoppingCart } from "use-shopping-cart";
 import { stripe } from "../lib/stripe";
@@ -18,15 +18,17 @@ interface SuccessProps {
 }
 
 export default function Success({ customerName, products }: SuccessProps) {
-  const { clearCart } = useShoppingCart()
+  const [cartQuantity, setCartQuantity] = useState(0)
+  const { cartCount, clearCart } = useShoppingCart()
 
   const totalTshirts = products.reduce((total, products) => total + products.quantity, 0)
 
   useEffect(() => {
-    if (totalTshirts > 0) {
+    setCartQuantity(cartCount)
+    if (cartQuantity > 0) {
       clearCart()
     }
-  }, [])
+  }, [cartQuantity, cartCount, clearCart])
 
   return (
     <>
