@@ -2,7 +2,9 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect } from "react";
 import Stripe from "stripe";
+import { useShoppingCart } from "use-shopping-cart";
 import { stripe } from "../lib/stripe";
 import { ImageContainer, ImagesWrapper, QuantityTooltip, SuccessContainer } from "../styles/pages/success";
 
@@ -16,7 +18,15 @@ interface SuccessProps {
 }
 
 export default function Success({ customerName, products }: SuccessProps) {
+  const { clearCart } = useShoppingCart()
+
   const totalTshirts = products.reduce((total, products) => total + products.quantity, 0)
+
+  useEffect(() => {
+    if (totalTshirts > 0) {
+      clearCart()
+    }
+  }, [])
 
   return (
     <>

@@ -1,14 +1,11 @@
 import { AppProps } from "next/app"
 import { globalStyles } from "../styles/global"
 
-import { Handbag, X } from 'phosphor-react'
-import logoImg from '../assets/logo.svg'
-import Image from "next/image";
-
-import { Container, Header } from "../styles/pages/app";
+import { Container } from "../styles/pages/app";
 import { CartProvider } from "use-shopping-cart";
 import * as Dialog from '@radix-ui/react-dialog'
 import { ShoppingCart } from "../components/ShoppingCart";
+import { Header } from "../components/Header";
 
 globalStyles();
 
@@ -23,14 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
     >
       <Container>
         <Dialog.Root>
-          <Header>
-            <Image src={logoImg} alt="" />
-            
-              <Dialog.Trigger>
-                <Handbag size={32} color="white" weight="bold" />
-              </Dialog.Trigger>
-            
-          </Header>
+          <Header />
 
           <Component {...pageProps} />
           <ShoppingCart />

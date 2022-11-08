@@ -9,7 +9,7 @@ import { useShoppingCart } from 'use-shopping-cart'
 import { stripe } from '../../lib/stripe'
 import { ImageContainer, ProductContainer, ProductDetails } from '../../styles/pages/product'
 
-interface ProductProps {
+export interface ProductProps {
   product: {
     id: string,
     name: string,

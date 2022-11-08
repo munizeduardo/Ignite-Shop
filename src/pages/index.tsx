@@ -12,16 +12,22 @@ import { HomeContainer, Product } from "../styles/pages/home"
 import Link from "next/link"
 import { useShoppingCart } from "use-shopping-cart"
 
-interface HomeProps {
-  products: {
-    id: string
-    name: string
-    imageUrl: string
-    formattedPrice: string
-    price: number
-    currency: string
-  }[]
+interface HomeProductProps {
+  id: string,
+  name: string,
+  imageUrl: string,
+  price: number,
+  description: string,
+  defaultPriceId: string,
+  currency: string,
+  formattedPrice: string
 }
+
+interface HomeProps {
+  products: HomeProductProps[]
+}
+
+
 
 export default function Home({ products }: HomeProps) {
   const { addItem } = useShoppingCart()
@@ -32,6 +38,17 @@ export default function Home({ products }: HomeProps) {
       spacing: 48,
     }
   })
+
+  async function handleAddItem(product: HomeProductProps) {
+    addItem({
+      price: product.price,
+      currency: product.currency,
+      id: product.defaultPriceId,
+      sku: product.id,
+      name: product.name,
+      image: product.imageUrl
+    })
+  }
 
   return (
     <>
@@ -55,7 +72,7 @@ export default function Home({ products }: HomeProps) {
                     <strong>{product.name}</strong>
                     <span>{product.formattedPrice}</span>
                   </div>
-                  <button onClick={() => addItem(product)}>
+                  <button onClick={() => handleAddItem(product)}>
                     <Handbag size={32} color="white" weight="bold" />
                   </button>
                 </footer>
@@ -85,7 +102,9 @@ export const getStaticProps: GetStaticProps = async () => {
         currency: 'BRL',
       }).format(price.unit_amount / 100),
       price: price.unit_amount,
-      currency: price.currency
+      currency: price.currency,
+      description: product.description,
+      defaultPriceId: price.id,
     }
   })
 
